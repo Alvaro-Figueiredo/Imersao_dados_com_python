@@ -1,1 +1,1 @@
-Vou testar usar o git fetch teste
+Esse projeto corresponde a imersão de dados com Python, a Alura criou essa imersão no dia 06/08/2025, e eu realizei ele para me aprofundar na área de dados e decidir/descobrir se vou seguir essa profissão.
