@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('testedadosimersaodedados.csv')
+df = pd.read_csv('dados_para_imersao.csv')
 
 df.head()
 
@@ -61,6 +61,6 @@ print(df["proporcao_remota"].value_counts())
 
 print("\n")
 
-print(df["tamanho_da_empresa"].value_counts())
+print(df["tamanho_da_empresa"].value_counts()) 
 
 print(df.describe(include="object"))
