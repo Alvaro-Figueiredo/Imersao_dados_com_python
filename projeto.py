@@ -29,7 +29,9 @@ substituir_nivel_de_experiencia = {
 
 df["nivel_de_experiencia"] = df["nivel_de_experiencia"].replace(substituir_nivel_de_experiencia)
 
-'''
+
+# Esse código comentado é referente analise dos dados principais.
+''' 
 print(df["nivel_de_experiencia"].value_counts()) # - me passa a quantidade de vezes que cada senioridade aparece nos dados.
 
 print("\n")
@@ -67,8 +69,8 @@ print(df["tamanho_da_empresa"].value_counts())
 print(df.describe(include="object"))
 
 print("\n")
-'''
-print(df.isnull())
+
+print(df.isnull()) # - exibe todos os dados e apresenta como true apenas os dados nulos.
 
 print('\n')
 
@@ -82,13 +84,16 @@ print('\n')
 
 print(df[df.isnull().any(axis=1)]) # - me traz tudo da base onde o isnull é true e imprime isso para mim.
 
-'''
-          Estratégia:	         |                                Quando usar:
-     Imputação inteligente	     |          Quando os dados faltantes são significativos para a análise
-       Remoção de linhas	     |           Quando o volume de nulos é pequeno e não afeta o dataset
-Preenchimento baseado em regra	 |            Quando há lógica ou negócio claro para inferir o valor
+
+          Estratégia:	            |                             Quando usar:
+     Imputação inteligente	        |       Quando os dados faltantes são significativos para a análise
+       Remoção de linhas	        |        Quando o volume de nulos é pequeno e não afeta o dataset
+Preenchimento baseado em regra	    |         Quando há lógica ou negócio claro para inferir o valor
 '''
 
+
+# Esse comentario são os testes de tratamento de dados nulos em novas Data Frames.
+''' 
 df_salarios = pd.DataFrame({
     'nome': ['Ana', 'Bruno', 'Carlos', 'Laura', 'Neto'],
     'salario': [4000, np.nan, 5000, np.nan, 100000]
@@ -110,3 +115,33 @@ df_temperaturas = pd.DataFrame({
 df_temperaturas['preenchido_ffill'] = df_temperaturas['Temperatura'].ffill() # - o 'ffill' completa com o valor anterior, se eu usasse o 'bfill' eu completaria com o valor anterior.
 
 print(df_temperaturas)
+
+print('\n')
+
+df_cidades = pd.DataFrame({
+    'nome': ['Ana', 'Bruno', 'Carlos', 'Laura', 'Neto'],
+    'cidade': ['São Paulo', np.nan, 'Curitiba', np.nan, 'Piedade']
+})
+
+df_cidades['cidades_preenchidas'] = df_cidades['cidade'].fillna('Não informado') # - troca os valores nulos pelo valor 'Não informado'.
+
+print(df_cidades)
+#chamada de funções e operações matematicas é o (), criação de uma dicionario ou listas usa-se [], criação de um DataFrame ou uma base de dados usa-se {}
+'''
+
+#Nesse comentario tratamos os dados do Data Frame principal.
+'''
+df_dados_limpo = df.dropna() # - Exclui as linhas que contem dados nulos, podemos fazer isso porque tem apenas 10 linhas de dados nulos em um data set de 130000.
+
+print(df_dados_limpo.isnull().sum()) # - mostra todas os valores que contem dados nulos, no caso não aparece porque excluimos eles.
+
+print('\n')
+
+print(df_dados_limpo.info()) # - aqui vemos os tipos dos dados, e notamos que o valor 'ano' é um float.
+
+print('\n')
+
+df_dados_limpo = df_dados_limpo.assign(ano = df_dados_limpo['ano'].astype('int64')) # - assign reconfigura toda coluna ano para o tipo int.
+
+print(df_dados_limpo.head()) 
+'''
