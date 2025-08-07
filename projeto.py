@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sb
 
 df = pd.read_csv('dados_para_imersao.csv')
 
@@ -130,7 +132,7 @@ print(df_cidades)
 '''
 
 #Nesse comentario tratamos os dados do Data Frame principal.
-'''
+
 df_dados_limpo = df.dropna() # - Exclui as linhas que contem dados nulos, podemos fazer isso porque tem apenas 10 linhas de dados nulos em um data set de 130000.
 
 print(df_dados_limpo.isnull().sum()) # - mostra todas os valores que contem dados nulos, no caso não aparece porque excluimos eles.
@@ -144,4 +146,13 @@ print('\n')
 df_dados_limpo = df_dados_limpo.assign(ano = df_dados_limpo['ano'].astype('int64')) # - assign reconfigura toda coluna ano para o tipo int.
 
 print(df_dados_limpo.head()) 
-'''
+
+print (df_dados_limpo['nivel_de_experiencia'].value_counts().plot(
+    kind='bar', 
+    title= 'Distribuição de senioridade')
+)
+
+plt.xlabel('Nível de Experiência')  # - adiciona uma descrição ao eixo X.
+plt.ylabel('Quantidade')              # - adiciona uma descrição ao eixo Y.
+plt.tight_layout()                  # - ajusta o layout para não cortar texto.
+plt.show()                          # - exibe o gráfico.
