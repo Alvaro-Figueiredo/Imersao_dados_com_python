@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 df = pd.read_csv('dados_para_imersao.csv')
 
@@ -28,7 +29,7 @@ substituir_nivel_de_experiencia = {
 
 df["nivel_de_experiencia"] = df["nivel_de_experiencia"].replace(substituir_nivel_de_experiencia)
 
-
+'''
 print(df["nivel_de_experiencia"].value_counts()) # - me passa a quantidade de vezes que cada senioridade aparece nos dados.
 
 print("\n")
@@ -64,3 +65,48 @@ print("\n")
 print(df["tamanho_da_empresa"].value_counts()) 
 
 print(df.describe(include="object"))
+
+print("\n")
+'''
+print(df.isnull())
+
+print('\n')
+
+print(df.isnull().sum()) # - somou todos valores nulos e encontrou que 10 pessoas não tinham o valor ano.
+
+print('\n')
+
+print(df['ano'].unique()) # - mostra como esta exibido esses valores nulos.
+
+print('\n')
+
+print(df[df.isnull().any(axis=1)]) # - me traz tudo da base onde o isnull é true e imprime isso para mim.
+
+'''
+          Estratégia:	         |                                Quando usar:
+     Imputação inteligente	     |          Quando os dados faltantes são significativos para a análise
+       Remoção de linhas	     |           Quando o volume de nulos é pequeno e não afeta o dataset
+Preenchimento baseado em regra	 |            Quando há lógica ou negócio claro para inferir o valor
+'''
+
+df_salarios = pd.DataFrame({
+    'nome': ['Ana', 'Bruno', 'Carlos', 'Laura', 'Neto'],
+    'salario': [4000, np.nan, 5000, np.nan, 100000]
+    }) # - criação de um DataFrame de testes.
+
+df_salarios['salario_media'] = df_salarios['salario'].fillna(df_salarios['salario'].mean().round(2)) # - df_salarios é a nossa base, salarios_media é a nova coluna que estamos criando lá, vai receber os salarios e vai completar os valores nulos com a média (.mean()) dos salarios, round2 é o arredondamento para apenas 2 casas decimais. Define a nova coluna 'salario_media' -> diz que é igual a salarios -> substitui os valores nulos pela média -> arredonda para duas casas decimais.
+
+df_salarios['salario_mediana'] = df_salarios['salario'].fillna(df_salarios['salario'].median())# - agora criamos uma nova coluna chamada salario_mediana, as vezes é melhor fazer a mediana do que a média dependendo da base de dados. Calcula a mediana e substitui os nulos pela mediana.
+
+print(df_salarios)
+
+print('\n')
+
+df_temperaturas = pd.DataFrame({
+    'Dia': ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado', 'Domingo'],
+    'Temperatura': [30, np.nan, np.nan, 28, 27, np.nan, 31]
+})
+
+df_temperaturas['preenchido_ffill'] = df_temperaturas['Temperatura'].ffill() # - o 'ffill' completa com o valor anterior, se eu usasse o 'bfill' eu completaria com o valor anterior.
+
+print(df_temperaturas)
