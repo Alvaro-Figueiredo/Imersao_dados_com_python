@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sb
+import seaborn as sns
 
 df = pd.read_csv('dados_para_imersao.csv')
 
@@ -131,6 +131,7 @@ print(df_cidades)
 #chamada de funções e operações matematicas é o (), criação de uma dicionario ou listas usa-se [], criação de um DataFrame ou uma base de dados usa-se {}
 '''
 
+
 #Nesse comentario tratamos os dados do Data Frame principal.
 
 df_dados_limpo = df.dropna() # - Exclui as linhas que contem dados nulos, podemos fazer isso porque tem apenas 10 linhas de dados nulos em um data set de 130000.
@@ -147,12 +148,55 @@ df_dados_limpo = df_dados_limpo.assign(ano = df_dados_limpo['ano'].astype('int64
 
 print(df_dados_limpo.head()) 
 
-print (df_dados_limpo['nivel_de_experiencia'].value_counts().plot(
+# - aqui fiz graficos de barras, histograma e boxplot, sem serem interativos.
+'''
+df_dados_limpo['nivel_de_experiencia'].value_counts().plot(
     kind='bar', 
-    title= 'Distribuição de senioridade')
-)
+    title= 'Distribuição de senioridade'
+    )
 
 plt.xlabel('Nível de Experiência')  # - adiciona uma descrição ao eixo X.
-plt.ylabel('Quantidade')              # - adiciona uma descrição ao eixo Y.
+plt.ylabel('Quantidade')            # - adiciona uma descrição ao eixo Y.
 plt.tight_layout()                  # - ajusta o layout para não cortar texto.
 plt.show()                          # - exibe o gráfico.
+
+
+#tem que seguir essa ordem para a criação do gráfico.
+ordem = df_dados_limpo.groupby('nivel_de_experiencia')['salario_em_dolar'].mean().sort_values(ascending=False).index # - agrupa valores pro grupo em colunas, nivel de experiencia por salario em dolar, o .mean() calcula a média e o .sort_values(ascending=false) organiza em ordem decrescente.
+plt.figure(figsize=(8, 5))                    # - define um tamanho para o gráfico.
+sns.barplot(data = df_dados_limpo, x= 'nivel_de_experiencia', y= 'salario_em_dolar', order=ordem)
+plt.title('Salário médio por nível de experiência') # - adiciona um título ao grafico.
+plt.xlabel('Senioridade')
+plt.ylabel('Salário médio anual (USD)')
+plt.tight_layout()  
+plt.show()
+
+plt.figure(figsize=(8, 4))
+sns.histplot(df_dados_limpo['salario_em_dolar'], bins= 50, kde=True) # - bin é a largura das barras exibidas no grafico, kde é a linha azul que contorna o gráfico.
+plt.title('Distribuição dos salários anuais') # - adiciona um título ao grafico.
+plt.xlabel('Salário (USD)')
+plt.ylabel('Frequência')
+plt.tight_layout()  
+plt.show()
+
+plt.figure(figsize=(8, 5))
+sns.boxplot(x = df_dados_limpo['salario_em_dolar']) # - é um gráfico muito técnico, as bolinhas são os valores muito descrepantes do resto, a linha no meio do retângulo azul é a mediana, as extremidades da direita e esquerda são os valores minimos e maximos, dentro do boxplot temos os quartis.
+                     O que são quartis?
+Primeiro Quartil (Q1): 25% dos dados estão abaixo deste valor.
+Segundo Quartil (Q2): 50% dos dados estão abaixo deste valor, também conhecido como mediana.
+Terceiro Quartil (Q3): 75% dos dados estão abaixo deste valor. 
+plt.title('Boxplot salário') 
+plt.xlabel('Salário (USD)')
+plt.tight_layout()  
+plt.show()
+
+
+ordem_senioridade = ['Junior', 'Pleno', 'Senior', 'Executivo']
+plt.figure(figsize= (8, 5))
+sns.boxplot(x = 'nivel_de_experiencia', y = 'salario_em_dolar', data = df_dados_limpo, order= ordem_senioridade, palette='Set2', hue= 'nivel_de_experiencia')
+plt.title('Distribuição salarial por nível de senioridade') 
+plt.xlabel('Nível de experiência')
+plt.ylabel('Salário (USD)')
+plt.tight_layout()  
+plt.show()
+'''
