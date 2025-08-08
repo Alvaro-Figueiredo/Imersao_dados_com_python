@@ -202,6 +202,7 @@ plt.tight_layout()
 plt.show()
 '''
 
+# aqui fiz graficos de barras, rosca e pizza, todos interativos
 senioridade_media_salarial = df_dados_limpo.groupby('nivel_de_experiencia')['salario_em_dolar'].mean().sort_values(ascending=False).reset_index()
 
 fig = px.bar(senioridade_media_salarial,
@@ -222,7 +223,7 @@ fig = px.pie(remoto_contagem,
             names='proporcao_remota', 
             values='quantidade',
             title = 'Proporção dos tipos de trabalho',
-            hole= 0.5 # - faz virar um gráfico de rosca.
+            #hole= 0.5 # - faz virar um gráfico de rosca.
 )
             
 fig.update_traces(textinfo = 'percent+label')
