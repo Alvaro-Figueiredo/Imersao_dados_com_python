@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 
 df = pd.read_csv('dados_para_imersao.csv')
 
@@ -173,7 +174,7 @@ plt.show()
 
 plt.figure(figsize=(8, 4))
 sns.histplot(df_dados_limpo['salario_em_dolar'], bins= 50, kde=True) # - bin é a largura das barras exibidas no grafico, kde é a linha azul que contorna o gráfico.
-plt.title('Distribuição dos salários anuais') # - adiciona um título ao grafico.
+plt.title('Distribuição dos salários anuais') 
 plt.xlabel('Salário (USD)')
 plt.ylabel('Frequência')
 plt.tight_layout()  
@@ -200,3 +201,29 @@ plt.ylabel('Salário (USD)')
 plt.tight_layout()  
 plt.show()
 '''
+
+senioridade_media_salarial = df_dados_limpo.groupby('nivel_de_experiencia')['salario_em_dolar'].mean().sort_values(ascending=False).reset_index()
+
+fig = px.bar(senioridade_media_salarial,
+             x='nivel_de_experiencia',
+             y = 'salario_em_dolar',
+             title = 'Média salarial por senioridade',
+             labels= {'nivel_de_experiencia': 'Nível de Experiência', 'salario_em_dolar': 'Média salarial anual (USD)'}
+)
+            
+fig.show()
+
+
+
+remoto_contagem = df_dados_limpo['proporcao_remota'].value_counts().reset_index()
+remoto_contagem.columns = ['proporcao_remota', 'quantidade']
+
+fig = px.pie(remoto_contagem,
+            names='proporcao_remota', 
+            values='quantidade',
+            title = 'Proporção dos tipos de trabalho',
+            hole= 0.5 # - faz virar um gráfico de rosca.
+)
+            
+fig.update_traces(textinfo = 'percent+label')
+fig.show()
