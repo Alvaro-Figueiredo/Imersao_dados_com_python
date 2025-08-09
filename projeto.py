@@ -32,6 +32,30 @@ substituir_nivel_de_experiencia = {
 
 df["nivel_de_experiencia"] = df["nivel_de_experiencia"].replace(substituir_nivel_de_experiencia)
 
+mapa_trabalho = {
+    0: 'presencial',
+    100: 'remoto',
+    50: 'hibrido'
+}
+
+df['proporcao_remota'] = df['proporcao_remota'].replace(mapa_trabalho)
+
+contrato = {
+    'FT': 'integral',
+    'PT': 'parcial',
+    'CT': 'contrato',
+    'FL': 'freelancer'
+}
+df['tipo_de_emprego'] = df['tipo_de_emprego'].replace(contrato)
+
+tamanho_empresa = {
+    'L': 'grande',
+    'S': 'pequena',
+    'M': 'media'
+
+}
+df['tamanho_da_empresa'] = df['tamanho_da_empresa'].replace(tamanho_empresa)
+
 
 # Esse código comentado é referente analise dos dados principais.
 ''' 
@@ -203,6 +227,7 @@ plt.show()
 '''
 
 # aqui fiz graficos de barras, rosca e pizza, todos interativos
+'''
 senioridade_media_salarial = df_dados_limpo.groupby('nivel_de_experiencia')['salario_em_dolar'].mean().sort_values(ascending=False).reset_index()
 
 fig = px.bar(senioridade_media_salarial,
@@ -228,3 +253,6 @@ fig = px.pie(remoto_contagem,
             
 fig.update_traces(textinfo = 'percent+label')
 fig.show()
+'''
+
+#df_dados_limpo.to_csv("df_dados_limpo.csv", index=False) # - cria um novo arquivo .csv com os dados tratados (df_dados_limpo)
