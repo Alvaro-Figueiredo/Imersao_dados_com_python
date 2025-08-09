@@ -118,7 +118,7 @@ with col_graf3:
 
 with col_graf4:
     if not df_filtrado.empty:
-        df_ds = df_filtrado[df_filtrado['cargo'] == 'Data Scientist']''
+        df_ds = df_filtrado[df_filtrado['cargo'] == 'Data Scientist']
         media_ds_pais = df_ds.groupby('local_da_residencia_do_funcionario_iso3')['salario_em_dolar'].mean().reset_index()
         grafico_paises = px.choropleth(
             media_ds_pais, 
