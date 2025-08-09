@@ -256,7 +256,7 @@ fig.update_traces(textinfo = 'percent+label')
 fig.show()
 '''
 
-# Função para converter ISO-2 para ISO-3
+# Função para converter ISO-2 para ISO-3, cria uma nova coluna no DataFrame onde os lugares vão utilizar 3 letras ao invés de 2 letras
 def iso2_to_iso3(code):
     try:
         return pycountry.countries.get(alpha_2=code).alpha_3
@@ -279,4 +279,4 @@ fig = px.choropleth(media_ds_pais,
                     labels={'salario_em_dolar': 'Salário médio (USD)', 'local_da_residencia_do_funcionario_iso3': 'País'})
 
 
-df_dados_limpo.to_csv("df_dados_limpo.csv", index=False) # - cria um novo arquivo .csv com os dados tratados (df_dados_limpo)
+df_dados_limpo.to_csv("df_dados_limpo.csv", index=False) # - cria um novo arquivo .csv com os dados tratados (df_dados_limpo), o index falso é para não criar outros números em cima dos números ja existentes.

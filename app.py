@@ -61,24 +61,24 @@ st.markdown('---')
 
 st.subheader('Gráficos')
 
-col_graf1, col_graf2 = st.columns(2)
+col_graf1, col_graf2 = st.columns(2) # - cria um gráfico do lado do outro no dashboard.
 
 with col_graf1:
     if not df_filtrado.empty:
-        top_cargos = df_filtrado.groupby('cargo')['salario_em_dolar'].mean().nlargest(10).sort_values(ascending= True).reset_index()
+        top_cargos = df_filtrado.groupby('cargo')['salario_em_dolar'].mean().nlargest(10).sort_values(ascending= True).reset_index() #trás os 10 cargos com maior salário médio, agrupo o cargo por salário, sort_values coloca os valores em ordem.
         grafico_cargos = px.bar(
             top_cargos,
             x='salario_em_dolar',
             y='cargo',
-            orientation='h',
+            orientation='h',# - montamos o gráfico na horizontal, se fosse na vertical poderia deixar sem nada.
             title='Top 10 cargos por salário médio',
             labels= {'salario_em_dolar': 'Média salarial anual (USD)', 'cargo': ''}
         )
-        grafico_cargos.update_layout(title_x = 0.1, yaxis={'categoryorder': 'total ascending'})
-        st.plotly_chart(grafico_cargos, use_container_width=True)
+        grafico_cargos.update_layout(title_x = 0.1, yaxis={'categoryorder': 'total ascending'}) # - move o titulo um pouco para a direita.
+        st.plotly_chart(grafico_cargos, use_container_width=True) # exibe o gráfico com o streamlit.
 
     else:
-        st.warning('Nenhum dado para exibir no gráfico de cargos.')
+        st.warning('Nenhum dado para exibir no gráfico de cargos.') # - exibe um aviso caso ocorra um erro.
 
 with col_graf2:
     if not df_filtrado.empty:
@@ -118,7 +118,7 @@ with col_graf3:
 
 with col_graf4:
     if not df_filtrado.empty:
-        df_ds = df_filtrado[df_filtrado['cargo'] == 'Data Scientist']
+        df_ds = df_filtrado[df_filtrado['cargo'] == 'Data Scientist']''
         media_ds_pais = df_ds.groupby('local_da_residencia_do_funcionario_iso3')['salario_em_dolar'].mean().reset_index()
         grafico_paises = px.choropleth(
             media_ds_pais, 
