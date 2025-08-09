@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import pycountry
 
 df = pd.read_csv('dados_para_imersao.csv')
 
@@ -255,4 +256,27 @@ fig.update_traces(textinfo = 'percent+label')
 fig.show()
 '''
 
-#df_dados_limpo.to_csv("df_dados_limpo.csv", index=False) # - cria um novo arquivo .csv com os dados tratados (df_dados_limpo)
+# Função para converter ISO-2 para ISO-3
+def iso2_to_iso3(code):
+    try:
+        return pycountry.countries.get(alpha_2=code).alpha_3
+    except:
+        return None
+
+# Criar nova coluna com código ISO-3
+df_dados_limpo['local_da_residencia_do_funcionario_iso3'] = df_dados_limpo['local_da_residencia_do_funcionario'].apply(iso2_to_iso3)
+
+# Calcular média salarial por país (ISO-3)
+df_ds = df_dados_limpo[df_dados_limpo['cargo'] == 'Data Scientist']
+media_ds_pais = df_ds.groupby('local_da_residencia_do_funcionario_iso3')['salario_em_dolar'].mean().reset_index()
+
+# Gerar o mapa
+fig = px.choropleth(media_ds_pais,
+                    locations='local_da_residencia_do_funcionario_iso3',
+                    color='salario_em_dolar',
+                    color_continuous_scale='rdylgn',
+                    title='Salário médio de Cientista de Dados por país',
+                    labels={'salario_em_dolar': 'Salário médio (USD)', 'local_da_residencia_do_funcionario_iso3': 'País'})
+
+
+df_dados_limpo.to_csv("df_dados_limpo.csv", index=False) # - cria um novo arquivo .csv com os dados tratados (df_dados_limpo)
